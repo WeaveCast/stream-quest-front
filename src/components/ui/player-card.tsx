@@ -210,78 +210,82 @@ export function PlayerCard({
     );
   }
 
-  return (
-    <div className={cn(playerCardVariants({ layout, className }))} {...props}>
-      {displayAvatar && (
-        <Avatar
-          avatarName={name}
-          avatarUrl={avatarUrl ?? undefined}
-          status={status}
-          size="md"
-        />
-      )}
-
-      <div className="flex flex-col gap-sm w-full ml-xl">
-        <div className="flex items-center gap-xs">
-          <Heading as="h5" size="h5">
-            {name}
-          </Heading>
-          {displayClass && (
-            <Text as="span" size="mono" className="ml-sm">
-              {characterClass}
-            </Text>
-          )}
-          {displayLevel && (
-            <Text as="span" size="mono" className="ml-sm">
-              Lv. {level}
-            </Text>
-          )}
-        </div>
-
-        {displayHp && hasHp && (
-          <div className="flex items-center gap-sm w-full">
-            <ProgressBar
-              max={maxHp}
-              value={currentHp}
-              color={hpStatus}
-              size="sm"
-              className="flex-1"
-            />
-          </div>
+  if (layout === "minimal") {
+    return (
+      <div className={cn(playerCardVariants({ layout, className }))} {...props}>
+        {displayAvatar && (
+          <Avatar
+            avatarName={name}
+            avatarUrl={avatarUrl ?? undefined}
+            status={status}
+            size="md"
+          />
         )}
 
-        <Text as="span" size="label" className="flex flex-row">
-          {displayStatus && (
-            <>
-              <Text
-                as="span"
-                size="mono"
-                className="flex flex-row gap-4 items-center"
-              >
-                {displayHp && hasHp && (
-                  <Text
-                    as="span"
-                    size="mono"
-                    className="shrink-0 whitespace-nowrap"
-                  >
-                    {currentHp}/{maxHp}
-                  </Text>
-                )}
-                {displayArmorClass && armorClass != null && `AC: ${armorClass}`}
-                {displayStatus && (
-                  <Badge
-                    color={hpStatus}
-                    statusDot={hpStatus}
-                    className="-ml-md"
-                  >
-                    {hpStatus.charAt(0).toUpperCase() + hpStatus.slice(1)}
-                  </Badge>
-                )}
+        <div className="flex flex-col gap-sm w-full ml-xl">
+          <div className="flex items-center gap-xs">
+            <Heading as="h5" size="h5">
+              {name}
+            </Heading>
+            {displayClass && (
+              <Text as="span" size="mono" className="ml-sm">
+                {characterClass}
               </Text>
-            </>
+            )}
+            {displayLevel && (
+              <Text as="span" size="mono" className="ml-sm">
+                Lv. {level}
+              </Text>
+            )}
+          </div>
+
+          {displayHp && hasHp && (
+            <div className="flex items-center gap-sm w-full">
+              <ProgressBar
+                max={maxHp}
+                value={currentHp}
+                color={hpStatus}
+                size="sm"
+                className="flex-1"
+              />
+            </div>
           )}
-        </Text>
+
+          <Text as="span" size="label" className="flex flex-row">
+            {displayStatus && (
+              <>
+                <Text
+                  as="span"
+                  size="mono"
+                  className="flex flex-row gap-4 items-center"
+                >
+                  {displayHp && hasHp && (
+                    <Text
+                      as="span"
+                      size="mono"
+                      className="shrink-0 whitespace-nowrap"
+                    >
+                      {currentHp}/{maxHp}
+                    </Text>
+                  )}
+                  {displayArmorClass &&
+                    armorClass != null &&
+                    `AC: ${armorClass}`}
+                  {displayStatus && (
+                    <Badge
+                      color={hpStatus}
+                      statusDot={hpStatus}
+                      className="-ml-md"
+                    >
+                      {hpStatus.charAt(0).toUpperCase() + hpStatus.slice(1)}
+                    </Badge>
+                  )}
+                </Text>
+              </>
+            )}
+          </Text>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
