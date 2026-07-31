@@ -1,6 +1,6 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
-import { createElement, forwardRef, type HTMLAttributes } from "react";
+import { createElement, type HTMLAttributes } from "react";
 
 const headingVariants = cva("text-text-primary", {
   variants: {
@@ -24,17 +24,17 @@ export interface HeadingProps
   as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 }
 
-export const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(
-  ({ className, size, as = "h2", ...props }, ref) => {
-    return createElement(as, {
-      ref,
-      className: cn(headingVariants({ size, className })),
-      ...props,
-    });
-  },
-);
-
-Heading.displayName = "Heading";
+export function Heading({
+  className,
+  size,
+  as = "h2",
+  ...props
+}: HeadingProps) {
+  return createElement(as, {
+    className: cn(headingVariants({ size, className })),
+    ...props,
+  });
+}
 
 const textVariants = cva("", {
   variants: {
@@ -64,14 +64,15 @@ export interface TextProps
   as?: "p" | "span" | "div";
 }
 
-export const Text = forwardRef<HTMLParagraphElement, TextProps>(
-  ({ className, size, color, as = "p", ...props }, ref) => {
-    return createElement(as, {
-      ref,
-      className: cn(textVariants({ size, color, className })),
-      ...props,
-    });
-  },
-);
-
-Text.displayName = "Text";
+export function Text({
+  className,
+  size,
+  color,
+  as = "p",
+  ...props
+}: TextProps) {
+  return createElement(as, {
+    className: cn(textVariants({ size, color, className })),
+    ...props,
+  });
+}

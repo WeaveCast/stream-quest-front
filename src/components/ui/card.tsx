@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { cva, VariantProps } from "class-variance-authority";
-import { forwardRef, HTMLAttributes } from "react";
+import { HTMLAttributes } from "react";
 import { Heading, HeadingProps, Text, TextProps } from "./typography";
 
 const cardVariants = cva("block rounded-lg bg-bg-surface border p-lg", {
@@ -18,19 +18,11 @@ const cardVariants = cva("block rounded-lg bg-bg-surface border p-lg", {
 export interface CardProps
   extends HTMLAttributes<HTMLDivElement>, VariantProps<typeof cardVariants> {}
 
-export const Card = forwardRef<HTMLDivElement, CardProps>(
-  ({ className, elevation, ...props }, ref) => {
-    return (
-      <div
-        ref={ref}
-        className={cn(cardVariants({ elevation, className }))}
-        {...props}
-      />
-    );
-  },
-);
-
-Card.displayName = "Card";
+export function Card({ className, elevation, ...props }: CardProps) {
+  return (
+    <div className={cn(cardVariants({ elevation, className }))} {...props} />
+  );
+}
 
 export function CardTitle({
   className,
