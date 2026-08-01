@@ -61,7 +61,7 @@ export interface TextProps
   extends
     Omit<HTMLAttributes<HTMLParagraphElement>, "color">,
     VariantProps<typeof textVariants> {
-  as?: "p" | "span" | "div";
+  as?: "p" | "span" | "div" | "label";
 }
 
 export function Text({

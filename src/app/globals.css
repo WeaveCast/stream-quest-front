@@ -36,6 +36,11 @@
   --spacing-3xl: 48px;
   --spacing-4xl: 64px;
 
+  /* Max width */
+  --max-width-md: 28rem;
+  --max-width-lg: 32rem;
+  --max-width-xl: 36rem;
+
   /* Radius */
   --radius-none: 0px;
   --radius-sm: 4px;

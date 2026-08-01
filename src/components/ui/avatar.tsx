@@ -1,10 +1,11 @@
-import { cn } from "@/lib/utils";
+"use client";
+
 import { cva, VariantProps } from "class-variance-authority";
-import Image from "next/image";
-import { HTMLAttributes } from "react";
+import { HTMLAttributes, useState } from "react";
+import { cn } from "@/lib/utils";
 
 const avatarVariants = cva(
-  "flex items-center justify-center rounded-full border overflow-hidden shrink-0",
+  "flex items-center justify-center rounded-full border overflow-hidden shrink-0 font-heading relative",
   {
     variants: {
       status: {
@@ -24,41 +25,39 @@ const avatarVariants = cva(
 );
 
 export interface AvatarProps
-  extends HTMLAttributes<HTMLDivElement>, VariantProps<typeof avatarVariants> {
+  extends
+    Omit<HTMLAttributes<HTMLDivElement>, "color">,
+    VariantProps<typeof avatarVariants> {
   avatarName: string;
-  avatarUrl?: string;
+  avatarUrl?: string | null;
   initials?: string;
 }
 
 export function Avatar({
   className,
-  status = "ok",
+  status,
   size,
   avatarName,
   avatarUrl,
   initials,
   ...props
 }: AvatarProps) {
-  const hasAvatar = Boolean(avatarUrl);
+  const [imageFailed, setImageFailed] = useState(false);
+  const hasAvatar = Boolean(avatarUrl) && !imageFailed;
 
   return (
-    <div
-      className={cn(avatarVariants({ className, status, size }), "relative")}
-      {...props}
-    >
+    <div className={cn(avatarVariants({ className, status, size }))} {...props}>
       {hasAvatar && (
-        <Image
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
           src={avatarUrl!}
           alt={avatarName}
-          fill
-          className="object-cover"
+          className="absolute inset-0 h-full w-full object-cover"
+          onError={() => setImageFailed(true)}
         />
       )}
-
       {!hasAvatar && (
-        <span className="font-heading">
-          {initials ?? avatarName.charAt(0) + avatarName.charAt(1)}
-        </span>
+        <span>{initials ?? avatarName.charAt(0) + avatarName.charAt(1)}</span>
       )}
     </div>
   );
