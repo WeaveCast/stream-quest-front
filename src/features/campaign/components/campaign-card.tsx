@@ -30,7 +30,7 @@ export function CampaignCard({ campaign }: { campaign: Campaign }) {
         )}
         <KarmaBar
           karmaValue={campaign.karmaValue}
-          chaosThreshold={campaign.chaosThreshold}
+          chaosThreshold={Math.abs(campaign.chaosThreshold)}
           blessingThreshold={campaign.blessingThreshold}
           size="sm"
         />
