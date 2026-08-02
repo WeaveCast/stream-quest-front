@@ -1,7 +1,7 @@
 "use client";
 
 import { use, useState } from "react";
-import { TwitchMapping, useTwitchMappings } from "@/features/twitch-mapping";
+import { useTwitchMappings } from "@/features/twitch-mapping";
 import { useResetMappingCount } from "@/features/twitch-mapping";
 import { CreateTwitchMappingForm } from "@/features/twitch-mapping";
 import { Heading, Text } from "@/components/ui/typography";
