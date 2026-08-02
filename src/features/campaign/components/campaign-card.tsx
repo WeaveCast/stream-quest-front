@@ -10,9 +10,15 @@ const statusBadgeColor = {
   ENDED: "neutral",
 } as const;
 
-export function CampaignCard({ campaign }: { campaign: Campaign }) {
+export function CampaignCard({
+  campaign,
+  href,
+}: {
+  campaign: Campaign;
+  href?: string;
+}) {
   return (
-    <Link href={`/hall/${campaign.id}`}>
+    <Link href={href ?? `/hall/${campaign.id}`}>
       <Card
         elevation="default"
         className="hover:border-accent-gold transition-colors"
