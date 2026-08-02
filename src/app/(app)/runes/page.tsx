@@ -1,9 +1,18 @@
-import { Heading } from "@/components/ui/typography";
+"use client";
+
+import { CampaignList } from "@/features/campaign";
+import { Heading, Text } from "@/components/ui/typography";
 
 export default function RunesPage() {
   return (
-    <Heading as="h1" size="h1">
-      Runes
-    </Heading>
+    <div>
+      <Heading as="h1" size="h1" className="mb-xs">
+        The Runes
+      </Heading>
+      <Text size="body-lg" className="mb-xl">
+        Choose a campaign to manage its Twitch triggers.
+      </Text>
+      <CampaignList hrefBuilder={(id) => `/runes/${id}`} />
+    </div>
   );
 }
