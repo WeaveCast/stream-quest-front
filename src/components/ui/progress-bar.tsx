@@ -1,5 +1,6 @@
 "use client";
 
+import { useAnimatedNumber } from "@/hooks/use-animated-number";
 import { cn } from "@/lib/utils";
 import * as ProgressPrimitive from "@radix-ui/react-progress";
 import { cva, VariantProps } from "class-variance-authority";
@@ -54,7 +55,8 @@ export function ProgressBar({
   labels = "none",
   ...props
 }: ProgressBarProps) {
-  const percent = (value / max) * 100;
+  const animatedValue = useAnimatedNumber(value);
+  const percent = (animatedValue / max) * 100;
 
   return (
     <div className="w-full">
@@ -67,16 +69,13 @@ export function ProgressBar({
 
       <div className="relative w-full">
         <ProgressPrimitive.Root
-          value={value}
+          value={animatedValue}
           max={max}
           className={cn(progressBarVariants({ color, size, className }))}
           {...props}
         >
           <ProgressPrimitive.Indicator
-            className={cn(
-              "h-full rounded-full transition-transform",
-              indicatorColorMap[color ?? "gold"],
-            )}
+            className={cn("h-full", indicatorColorMap[color ?? "gold"])}
             style={{ transform: `translateX(-${100 - percent}%)` }}
           />
         </ProgressPrimitive.Root>
@@ -86,7 +85,7 @@ export function ProgressBar({
             className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 text-body-sm font-mono text-text-primary drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] pointer-events-none z-10 whitespace-nowrap"
             style={{ left: `${percent}%` }}
           >
-            {value}
+            {animatedValue}
           </span>
         )}
 
@@ -95,7 +94,7 @@ export function ProgressBar({
             className="absolute top-full mt-xs -translate-x-1/2 text-body-sm font-mono text-text-primary whitespace-nowrap"
             style={{ left: `${percent}%` }}
           >
-            {value}
+            {animatedValue}
           </span>
         )}
       </div>

@@ -5,6 +5,7 @@ export { useDeleteTwitchMapping } from "./api/use-delete-twitch-mapping";
 export { useTwitchMapping } from "./api/use-twitch-mapping";
 export { useResetMappingCount } from "./api/use-reset-mapping-count";
 export { CreateTwitchMappingForm } from "./components/create-twitch-mapping-form";
+export { TwitchCountersPanel } from "./components/twitch-counters-panel";
 export type {
   TwitchMapping,
   DetailedTwitchMapping,

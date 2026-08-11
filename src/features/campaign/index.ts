@@ -6,4 +6,6 @@ export { useUpdateCampaignStatus } from "./api/use-update-campaign-status";
 export { useDeleteCampaign } from "./api/use-delete-campaign";
 export { CampaignCard } from "./components/campaign-card";
 export { CampaignList } from "./components/campaign-list";
+export { useUpdateKarma } from "./api/use-update-karma";
+export { KarmaPanel } from "./components/karma-panel";
 export type { Campaign, CampaignStatus } from "./types";
