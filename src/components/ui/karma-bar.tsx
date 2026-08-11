@@ -1,5 +1,6 @@
 "use client";
 
+import { useAnimatedNumber } from "@/hooks/use-animated-number";
 import { cn } from "@/lib/utils";
 import * as ProgressPrimitive from "@radix-ui/react-progress";
 import { cva, VariantProps } from "class-variance-authority";
@@ -34,9 +35,16 @@ export function KarmaBar({
   blessingThreshold,
   labels = "none",
 }: KarmaBarProps) {
-  const isPositive = karmaValue >= 0;
-  const chaosValue = !isPositive ? Math.abs(karmaValue) : 0;
-  const blessingValue = isPositive ? karmaValue : 0;
+  const safeKarmaValue = Number.isFinite(karmaValue) ? karmaValue : 0;
+  const animatedKarmaValue = useAnimatedNumber(safeKarmaValue, 2000);
+
+  const isPositive = animatedKarmaValue >= 0;
+  const chaosValue = !isPositive
+    ? Math.min(Math.abs(animatedKarmaValue), chaosThreshold)
+    : 0;
+  const blessingValue = isPositive
+    ? Math.min(animatedKarmaValue, blessingThreshold)
+    : 0;
 
   const overallPercent = isPositive
     ? 50 + (blessingValue / blessingThreshold) * 50
@@ -46,14 +54,8 @@ export function KarmaBar({
     <div className={cn("w-full", className)}>
       {(labels === "inline" || labels === "floating") && (
         <div className="flex justify-between text-body-sm text-text-secondary mb-xs">
-          <span>
-            <span className="text-status-critical">Chaos</span>{" "}
-            {-chaosThreshold}
-          </span>
-          <span>
-            {blessingThreshold}{" "}
-            <span className="text-accent-gold">Blessing</span>
-          </span>
+          <span>Chaos {-chaosThreshold}</span>
+          <span>{blessingThreshold} Blessing</span>
         </div>
       )}
 
@@ -68,7 +70,7 @@ export function KarmaBar({
             )}
           >
             <ProgressPrimitive.Indicator
-              className="h-full rounded-l-full bg-status-critical transition-transform"
+              className="h-full rounded-l-full bg-status-critical"
               style={{
                 transform: `translateX(${100 - (chaosValue / chaosThreshold) * 100}%)`,
               }}
@@ -86,7 +88,7 @@ export function KarmaBar({
             )}
           >
             <ProgressPrimitive.Indicator
-              className="h-full rounded-r-full bg-accent-gold transition-transform"
+              className="h-full rounded-r-full bg-accent-gold"
               style={{
                 transform: `translateX(-${100 - (blessingValue / blessingThreshold) * 100}%)`,
               }}
@@ -99,7 +101,7 @@ export function KarmaBar({
             className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 text-body-sm font-mono text-text-primary drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] pointer-events-none z-10 whitespace-nowrap"
             style={{ left: `${overallPercent}%` }}
           >
-            {karmaValue}
+            {animatedKarmaValue}
           </span>
         )}
 
@@ -108,7 +110,7 @@ export function KarmaBar({
             className="absolute top-full mt-xs -translate-x-1/2 text-body-sm font-mono text-text-primary whitespace-nowrap"
             style={{ left: `${overallPercent}%` }}
           >
-            {karmaValue}
+            {animatedKarmaValue}
           </span>
         )}
       </div>
