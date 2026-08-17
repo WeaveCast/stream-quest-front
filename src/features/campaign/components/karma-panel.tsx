@@ -11,21 +11,36 @@ import { Text } from "@/components/ui/typography";
 
 const QUICK_ADJUST = [-10, -5, 5, 10];
 
-export function KarmaPanel({ campaignId }: { campaignId: string }) {
+export function KarmaPanel({
+  campaignId,
+  sessionId,
+}: {
+  campaignId: string;
+  sessionId?: string;
+}) {
   const { data: campaign } = useCampaign(campaignId);
   const updateKarma = useUpdateKarma(campaignId);
   const [customValue, setCustomValue] = useState("");
 
   if (!campaign) return null;
 
+  function applyKarmaDelta(delta: number) {
+    if (!campaign) return;
+    const projected = campaign.karmaValue + delta;
+    const clamped = Math.max(
+      -Math.abs(campaign.chaosThreshold),
+      Math.min(campaign.blessingThreshold, projected),
+    );
+    const actualDelta = clamped - campaign.karmaValue;
+    if (actualDelta === 0) return;
+    updateKarma.mutate({ karmaValue: actualDelta, sessionId });
+  }
+
   function handleCustomSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     const value = Number(customValue);
     if (!value) return;
-    updateKarma.mutate(
-      { karmaValue: value },
-      { onSuccess: () => setCustomValue("") },
-    );
+    applyKarmaDelta(value);
   }
 
   return (
@@ -45,7 +60,7 @@ export function KarmaPanel({ campaignId }: { campaignId: string }) {
               key={delta}
               variant="secondary"
               size="medium"
-              onClick={() => updateKarma.mutate({ karmaValue: delta })}
+              onClick={() => applyKarmaDelta(delta)}
               disabled={updateKarma.isPending}
             >
               {delta > 0 ? `+${delta}` : delta}

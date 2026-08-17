@@ -6,6 +6,7 @@ import type { Campaign } from "../types";
 export interface UpdateKarmaPayload {
   karmaValue: number;
   reason?: string;
+  sessionId?: string;
 }
 
 interface UpdateKarmaResponse {
@@ -20,7 +21,7 @@ interface UpdateKarmaResponse {
   };
 }
 
-export function useUpdateKarma(campaignId: string) {
+export function useUpdateKarma(campaignId: string, sessionId: string) {
   const queryClient = useQueryClient();
 
   return useMutation({
