@@ -114,45 +114,6 @@ export default function ChroniclePage() {
         <div className="w-[220px] shrink-0 flex flex-col gap-md">
           <div>
             <Text as="span" size="label" className="block mb-sm">
-              Campaigns
-            </Text>
-            <div className="flex flex-col gap-xs">
-              <button
-                onClick={() => {
-                  setSelectedCampaignId("");
-                  setSelectedSessionId("");
-                }}
-                className={`text-body-sm text-left ${
-                  !selectedCampaignId
-                    ? "text-accent-gold"
-                    : "text-text-secondary hover:text-text-primary"
-                }`}
-              >
-                · All
-              </button>
-              {campaigns.map((c) => (
-                <button
-                  key={c.id}
-                  onClick={() => {
-                    setSelectedCampaignId(c.id);
-                    setSelectedSessionId("");
-                  }}
-                  className={`text-body-sm text-left truncate ${
-                    selectedCampaignId === c.id
-                      ? "text-accent-gold"
-                      : "text-text-secondary hover:text-text-primary"
-                  }`}
-                >
-                  · {c.title}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="h-px w-full bg-border-default" />
-
-          <div>
-            <Text as="span" size="label" className="block mb-sm">
               Filter
             </Text>
             <div className="flex flex-col gap-xs">
@@ -221,17 +182,30 @@ export default function ChroniclePage() {
             />
           </div>
 
-          {!selectedSessionId && (
+          {!selectedCampaignId && (
             <div className="flex flex-col items-center justify-center py-4xl text-text-secondary">
               <Heading size="h1" className="mb-md">
                 📜
               </Heading>
               <Text size="body-lg" className="mb-xs">
-                No sessions recorded yet
+                Select a campaign
               </Text>
               <Text size="body-sm">
-                Once you run a session in The Hall, its history will appear
-                here.
+                Choose a campaign from the dropdown above to view its sessions.
+              </Text>
+            </div>
+          )}
+
+          {selectedCampaignId && !selectedSessionId && (
+            <div className="flex flex-col items-center justify-center py-4xl text-text-secondary">
+              <Heading size="h1" className="mb-md">
+                📜
+              </Heading>
+              <Text size="body-lg" className="mb-xs">
+                Select a session
+              </Text>
+              <Text size="body-sm">
+                Choose a session from the dropdown above to view its history.
               </Text>
             </div>
           )}
