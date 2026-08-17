@@ -57,7 +57,7 @@ export default function LiveDashboardPage({
         </div>
 
         <div className="flex-1 flex flex-col gap-xl">
-          <KarmaPanel campaignId={campaignId} />
+          <KarmaPanel campaignId={campaignId} sessionId={sessionId} />
           <ContextPanel sessionId={sessionId} />
           <TwitchCountersPanel campaignId={campaignId} />
         </div>
